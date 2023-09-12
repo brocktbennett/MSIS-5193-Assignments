@@ -71,15 +71,3 @@ Author:
 # Due Date: Sept 13th (11:59pm)
 # Author: Brock Bennett
 # Date: Sep 5, 2023
-
-# Importing necessary libraries
-import pandas as pd
-import datetime
-
-# Main function where all operations will be performed
-def main():
-    # ... (your original code)
-
-# Execute the main function when the script is run
-if __name__ == "__main__":
-    main()
