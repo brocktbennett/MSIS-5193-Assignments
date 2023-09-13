@@ -27,7 +27,7 @@ def main():
 
     # Task 1.1: Import CSV file into DataFrame and display basic DataFrame information (5 points)
     # Define file path
-    file_path = "/Users/brocktbennett/GitHub/Data/flights.csv"
+    file_path = "/Users/brocktbennett/GitHub/Project Data/flights.csv"
     # Read CSV file into DataFrame
     flight_df = pd.read_csv(file_path)
 
