@@ -1,3 +1,9 @@
+# MSIS 5193 Assignment 2
+# Due Date: Sept 20th (11:59pm)
+# Author: Brock Bennett
+# Date: Sep 10th, 2023
+
+
 # Import necessary libraries
 import pandas as pd
 import numpy as np
@@ -5,7 +11,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.feature_selection import SelectKBest, f_classif
 
 # Load the CSV file into a DataFrame
-df = pd.read_csv("datasets/2017CHR_CSV_Analytic_Data-new.csv")
+df = pd.read_csv("/Users/brocktbennett/GitHub/Project Data/2017CHR_CSV_Analytic_Data-new.csv")
 
 # Task 1: Check for missing values and impute if necessary
 missing_columns = df.columns[df.isnull().any()]
