@@ -3,7 +3,6 @@
 # Author: Brock Bennett
 # Date: Sep 10th, 2023
 
-
 # Import necessary libraries
 import pandas as pd
 import numpy as np
@@ -45,9 +44,9 @@ def categorize_diabetes(value):
         return "high"
 
 # Define thresholds for categorization
-threshold_low = df["Diabetes Value"].quantile(0.25)
-threshold_median_low = df["Diabetes Value"].quantile(0.5)
-threshold_median_high = df["Diabetes Value"].quantile(0.75)
+threshold_low = df["Diabetes Value: low"].quantile(0.25)
+threshold_median_low = df["Diabetes Value: Med"].quantile(0.5)
+threshold_median_high = df["Diabetes Value: high"].quantile(0.75)
 
 # Apply categorization function to create the new column
 df["Diabetes-level"] = df["Diabetes Value"].apply(categorize_diabetes)
