@@ -24,11 +24,11 @@ print(f"Number of Rows before drop: {analytics_data_df.shape[0]}\n")
 initial_num_columns = analytics_data_df.shape[1]
 initial_num_rows = analytics_data_df.shape[0]
 
-# Display data types of each column
-print("Display data types of each column:\n---------------------------------")
-print("Data Types of Each Column:")
-print(analytics_data_df.dtypes)
-print()
+# # Display data types of each column
+# print("Display data types of each column:\n---------------------------------")
+# print("Data Types of Each Column:")
+# print(analytics_data_df.dtypes)
+# print()
 
 # Display the top 10 rows of the DataFrame
 print("Display the top 10 rows of the DataFrame")
