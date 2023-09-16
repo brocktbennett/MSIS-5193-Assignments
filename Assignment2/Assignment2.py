@@ -9,11 +9,17 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_selection import SelectKBest, f_classif
 
+
+
+print("Task 1: Use 2017CHR_CSV_Analytic_Data to complete the following tasks")
+print()
 # Load the CSV file into a DataFrame
 df = pd.read_csv("/Users/brocktbennett/GitHub/Project Data/2017CHR_CSV_Analytic_Data-new.csv")
-
+print("Task 1: Checking for missing values and impute if necessary...")
+print()
 # Task 1: Check for missing values and impute if necessary
 missing_columns = df.columns[df.isnull().any()]
+print(missing_columns)
 if not missing_columns.empty:
     for col in missing_columns:
         # Impute missing values (you can choose a method, e.g., mean, median, or custom)
@@ -21,6 +27,12 @@ if not missing_columns.empty:
     print("Missing values imputed.")
 else:
     print("No missing values found. DataFrame remains as is.")
+print("""End of Task 1.1 """)
+
+
+
+
+
 
 # Task 2: Drop identifier columns
 df.drop(columns=["5-Digit FIPS Code", "statecode", "countycode", "county"], inplace=True)
