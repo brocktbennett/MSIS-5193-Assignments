@@ -142,3 +142,8 @@ selected_features = [input_columns[i] for i in range(len(input_columns)) if sele
 print("Top 5 Relevant Features to", target_column)
 print(selected_features)
 
+
+# Export the cleaned DataFrame to a new CSV file
+output_file_path = "/Users/brocktbennett/GitHub/Project Data/2017CHR_CSV_Analytic_Data-cleaned.csv"
+analytics_data_df.to_csv(output_file_path, index=False)
+print(f"Cleaned data saved to '{output_file_path}'")
