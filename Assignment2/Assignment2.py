@@ -54,7 +54,7 @@ def categorize_diabetes(value):
         return "median high"
     else:
         return "high"
-
+# Changed
 # Define thresholds for categorization
 threshold_low = df["Diabetes Value: low"].quantile(0.25)
 threshold_median_low = df["Diabetes Value: Med"].quantile(0.5)
