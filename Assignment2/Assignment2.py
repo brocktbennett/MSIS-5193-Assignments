@@ -18,7 +18,7 @@ analytics_data_df = pd.read_csv(file_path)
 print("CSV file loaded successfully.\n")
 
 # Print number of columns and rows in the DataFrame
-print("Print number of columns and rows in the DataFrame")
+print("Print number of columns and rows in the DataFrame:")
 print(f"Number of Columns before drop: {analytics_data_df.shape[1]}")
 print(f"Number of Rows before drop: {analytics_data_df.shape[0]}\n")
 initial_num_columns = analytics_data_df.shape[1]
@@ -107,20 +107,29 @@ normalized_df = pd.DataFrame(analytics_data_df, columns=columns_to_normalize)
 print("z-score Normalized values: ")
 print(normalized_df)
 
-print("Task 1.4: Create a new column Diabetes-level by coding Diabetes Value into four groups and lebel them"
+
+# Task 1.4: Create new column and come up with ranges
+print("Task 1.4: Create a new column Diabetes-level by coding Diabetes Value into four groups and label them "
       "low, median low, median high, and high\n")
 
-print(analytics_data_df["Diabetes Value"])
-
-columns_to_analyze = 'Diabetes Value'
-
 # Create a new column "Diabetes-level" with quartile categories
-analytics_data_df['Diabetes-level'] = pd.qcut(analytics_data_df[columns_to_analyze], q=4, labels=['low', 'median low', 'median high', 'high'])
+analytics_data_df['Diabetes-level'] = pd.qcut(analytics_data_df['Diabetes Value'], q=4, labels=['low', 'median low', 'median high', 'high'])
 
-# Print the updated DataFrame
+# Print the updated DataFrame with ranges
+print("\nRanges: ")
+for category in analytics_data_df['Diabetes-level'].unique():
+    category_values = analytics_data_df[analytics_data_df['Diabetes-level'] == category]['Diabetes Value']
+    min_value = category_values.min()
+    max_value = category_values.max()
+    print(f"{category}: {min_value:.3f} - {max_value:.3f}")
+
+print("\nUpdated DataFrame")
 print(analytics_data_df)
 
+# Task 1.5: Apply Feature selection to find the top 5 relevant features
 print("Task 1.5: Apply Feature selection to find the top 5 relevant features...")
+
+# Define target column and input columns
 target_column = 'Diabetes-level'
 input_columns = [col for col in analytics_data_df.columns if col not in ['Diabetes Value', 'Diabetes-level']]
 
@@ -142,8 +151,8 @@ selected_features = [input_columns[i] for i in range(len(input_columns)) if sele
 print("Top 5 Relevant Features to", target_column)
 print(selected_features)
 
-
 # Export the cleaned DataFrame to a new CSV file
 output_file_path = "/Users/brocktbennett/GitHub/Project Data/2017CHR_CSV_Analytic_Data-cleaned.csv"
 analytics_data_df.to_csv(output_file_path, index=False)
 print(f"Cleaned data saved to '{output_file_path}'")
+
