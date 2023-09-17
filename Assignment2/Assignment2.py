@@ -124,7 +124,8 @@ for category in analytics_data_df['Diabetes-level'].unique():
     print(f"{category}: {min_value:.3f} - {max_value:.3f}")
 
 print("\nUpdated DataFrame")
-print(analytics_data_df)
+print(analytics_data_df[['Diabetes Value', 'Diabetes-level']])
+# print(analytics_data_df.columns)
 
 # Task 1.5: Apply Feature selection to find the top 5 relevant features
 print("Task 1.5: Apply Feature selection to find the top 5 relevant features...")
