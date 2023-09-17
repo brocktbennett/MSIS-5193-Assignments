@@ -1,7 +1,5 @@
 import pandas as pd
-import numpy as np
 from sklearn.feature_selection import SelectKBest, chi2
-from sklearn.impute import SimpleImputer
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler
 
@@ -86,7 +84,8 @@ else:
 
 # Task 1.3: Use z-score normalization
 print("Task 1.3: Use z-score normalization to normalize selected columns...")
-columns_to_normalize = ["Poor physical health days Value", "Poor mental health days Value", "Food environment index Value"]
+columns_to_normalize = ["Poor physical health days Value", "Poor mental health days Value",
+                        "Food environment index Value"]
 
 # Check for missing values in the selected columns
 missing_values = analytics_data_df[columns_to_normalize].isnull().sum()
@@ -113,7 +112,8 @@ print("Task 1.4: Create a new column Diabetes-level by coding Diabetes Value int
       "low, median low, median high, and high\n")
 
 # Create a new column "Diabetes-level" with quartile categories
-analytics_data_df['Diabetes-level'] = pd.qcut(analytics_data_df['Diabetes Value'], q=4, labels=['low', 'median low', 'median high', 'high'])
+analytics_data_df['Diabetes-level'] = pd.qcut(analytics_data_df['Diabetes Value'], q=4, labels=['low', 'median low',
+                                                                                                'median high', 'high'])
 
 # Print the updated DataFrame with ranges
 print("\nRanges: ")
@@ -144,15 +144,19 @@ X_scaled = scaler.fit_transform(X)
 # Apply feature selection using chi-squared test to the scaled data
 selector = SelectKBest(score_func=chi2, k=5)  # Select the top 5 features
 X_new = selector.fit_transform(X_scaled, y)
+
+# Store the result of selector.get_support() in a variable
+support = selector.get_support()
+
 # Get the names of the selected features
-selected_features = [input_columns[i] for i in range(len(input_columns)) if selector.get_support()[i]]
+selected_features = [input_columns[i] for i, is_selected in enumerate(support) if is_selected]
 
 # Print the names of the top 5 relevant features
 print("Top 5 Relevant Features to", target_column)
 print(selected_features)
 
+print()
 # Export the cleaned DataFrame to a new CSV file
 output_file_path = "/Users/brocktbennett/GitHub/Project Data/2017CHR_CSV_Analytic_Data-cleaned.csv"
 analytics_data_df.to_csv(output_file_path, index=False)
 print(f"Cleaned data saved to '{output_file_path}'")
-
