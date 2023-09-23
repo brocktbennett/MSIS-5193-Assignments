@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.feature_selection import SelectKBest, chi2
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import LabelEncoder
 
 # MSIS 5193 Assignment 2
 # Due Date: Sept 20th (11:59pm)
@@ -62,6 +63,8 @@ print("Task 1.2: Remove the identifier columns - 5-Digit FIPS Code, statecode, c
 # Define columns to drop
 columns_to_drop = ["5-Digit FIPS Code", "statecode", "countycode", "county"]
 
+
+
 # Capture the dropped column names before dropping
 dropped_columns = analytics_data_df[columns_to_drop].columns.tolist()
 
@@ -106,37 +109,58 @@ normalized_df = pd.DataFrame(analytics_data_df, columns=columns_to_normalize)
 print("z-score Normalized values: ")
 print(normalized_df)
 
+# Task 1.4: Create a new column Diabetes-level by coding Diabetes Value into four groups and label them
+# low, median low, median high, and high
 
-# Task 1.4: Create new column and come up with ranges
-print("Task 1.4: Create a new column Diabetes-level by coding Diabetes Value into four groups and label them "
-      "low, median low, median high, and high\n")
+# Manually set bin edges based on the given information
+bins = [0.033000, 0.095000, 0.111000, 0.128000, float('inf')]
 
-# Create a new column "Diabetes-level" with quartile categories
-analytics_data_df['Diabetes-level'] = pd.qcut(analytics_data_df['Diabetes Value'], q=4, labels=['low', 'median low',
-                                                                                                'median high', 'high'])
+# Create labels for the bins
+labels = ['low', 'median low', 'median high', 'high']
+
+# Create a new column "Diabetes-level" with custom ranges
+analytics_data_df['Diabetes-level'] = pd.cut(analytics_data_df['Diabetes Value'], bins=bins, labels=labels, include_lowest=True)
+
+# Print out the Diabetes Values to determine labels
+print(analytics_data_df['Diabetes Value'].describe())
 
 # Print the updated DataFrame with ranges
 print("\nRanges: ")
-for category in analytics_data_df['Diabetes-level'].unique():
+for category in labels:
     category_values = analytics_data_df[analytics_data_df['Diabetes-level'] == category]['Diabetes Value']
-    min_value = category_values.min()
-    max_value = category_values.max()
-    print(f"{category}: {min_value:.3f} - {max_value:.3f}")
+    min_cat_value = category_values.min()
+    max_cat_value = category_values.max()
+    print(f"{category}: {min_cat_value:.3f} - {max_cat_value:.3f}")
 
 print("\nUpdated DataFrame")
 print(analytics_data_df[['Diabetes Value', 'Diabetes-level']])
-# print(analytics_data_df.columns)
+
+print("Preview of DataFrame with relevant columns:")
+print(analytics_data_df[['Diabetes Value', 'Diabetes-level']].head())
+
+
 
 # Task 1.5: Apply Feature selection to find the top 5 relevant features
 print("Task 1.5: Apply Feature selection to find the top 5 relevant features...")
 
+
+
 # Define target column and input columns
-target_column = 'Diabetes-level'
+target_column = analytics_data_df['Diabetes-level']
+
+# print("This is the columns of the dataframe")
+# print(analytics_data_df.columns)
+
+# Create a list of columns to use as input features (all columns except 'Diabetes Value' and 'Diabetes-level')
 input_columns = [col for col in analytics_data_df.columns if col not in ['Diabetes Value', 'Diabetes-level']]
 
 # Split the data into X (input) and y (target)
 X = analytics_data_df[input_columns]
 y = analytics_data_df[target_column]
+
+# # Describe column Diabetes Level
+# print("Printing out Describing Column")
+# print(analytics_data_df['Diabetes Value'].describe())
 
 # Apply feature scaling to make sure all input features are non-negative
 scaler = MinMaxScaler()
@@ -155,9 +179,6 @@ selected_features = [input_columns[i] for i, is_selected in enumerate(support) i
 # Print the names of the top 5 relevant features
 print("Top 5 Relevant Features to", target_column)
 print(selected_features)
-
 print()
-# Export the cleaned DataFrame to a new CSV file
-output_file_path = "/Users/brocktbennett/GitHub/Project Data/2017CHR_CSV_Analytic_Data-cleaned.csv"
-analytics_data_df.to_csv(output_file_path, index=False)
-print(f"Cleaned data saved to '{output_file_path}'")
+
+
