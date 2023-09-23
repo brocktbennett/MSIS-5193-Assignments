@@ -7,14 +7,16 @@ import seaborn as sns
 # Author: Brock Bennett
 # Date: Sep 23th, 2023
 
+# Set display options
+pd.set_option('display.width', 1000, 'display.max_colwidth', 100, 'display.max_columns', None)
+
 # Load Wine.csv
 print("Loading Wine.csv into the dataframe 'Wine_df'...")
-file_path = "/Users/brocktbennett/GitHub/Project Data/Wine.csv"
-wine_df = pd.read_csv(file_path)
+file_path1 = "/Users/brocktbennett/GitHub/Project Data/Wine.csv"
+wine_df = pd.read_csv(file_path1)
 print(f"CSV file loaded successfully with {wine_df.shape[0]} rows and {wine_df.shape[1]} columns.\n")
 
-# Display data types and top 10 rows
-pd.set_option('display.width', 1000, 'display.max_colwidth', 100, 'display.max_columns', None)
+# Display data types and top 10 rows with the Wine.CSV dataset.
 print("Data Types of Each Column:\n", wine_df.dtypes)
 print("\nTop 10 Rows of DataFrame:\n", wine_df.head(10))
 
@@ -52,18 +54,41 @@ plt.xlabel('Residual Sugar')
 plt.ylabel('Alcohol Content')
 plt.show()
 
-# Load country_population_historic.csv and Task 2.1
+# Load country_population_historic.csv
+print("Loading country_population_historic into the dataframe 'country_popdf'....")
+file_path2 = "/Users/brocktbennett/GitHub/Project Data/country_population_historic.csv"
+country_popdf = pd.read_csv(file_path2)
+print(f"CSV file loaded successfully with {country_popdf.shape[0]} rows and {country_popdf.shape[1]} columns.\n")
+
+# List of non-country entries to be dropped
+non_countries = [
+    "World", "High income", "Arab World", "East Asia & Pacific (excluding high income)",
+    "Europe & Central Asia", "Euro area", "European Union", "Latin America & Caribbean",
+    "Middle East & North Africa", "Sub-Saharan Africa", "Small states", "OECD members",
+    "IDA & IBRD total", "IDA only", "IDA blend", "IBRD only", "Heavily indebted poor countries (HIPC)",
+    "Low & middle income", "Middle income", "Upper middle income", "Late-demographic dividend", "East Asia & Pacific",
+    "Early-demographic dividend", "Lower middle income", "East Asia & Pacific (IDA & IBRD countries)", "Post-demographic dividend", "IDA total"
+
+]
+
+# Drop the rows corresponding to the non-country entries
+df_filtered = country_popdf[~country_popdf['Country Name'].isin(non_countries)]
+
+# Display data types and top 10 rows with the country_pop_historic.CSV dataset.
+print("Data Types of Each Column:\n", df_filtered.dtypes)
+print("\nTop 10 Rows of DataFrame:\n", df_filtered.head(10))
+print(df_filtered.columns)
+
+# Start working on Task 2, using Country_Pop_historic
 print("\nTask 2: Using country_population_historic.csv.")
-file_path_population = "/Users/brocktbennett/GitHub/Project Data/country_population_historic.csv"
-population_df = pd.read_csv(file_path_population)
-top_10_countries_1960 = population_df.nlargest(10, '1960')
+top10_1960 = df_filtered.nlargest(10,'1960')
+print(top10_1960)
 
+years = [str(year) for year in range(1960, 1971)]
+heatmap_data = top10_1960.set_index('Country Name')[years].T
 
-
-
-
-
-selected_countries = top_10_countries_1960[['Country'] + [str(year) for year in range(1960, 1971)]]
-sns.heatmap(selected_countries.set_index('Country'), cmap='YlGnBu', annot=True, fmt="d")
-plt.title('Population of Top 10 Countries from 1960 to 1970')
+plt.figure(figsize=(12, 8))
+sns.heatmap(heatmap_data, cmap="YlGnBu", annot=True, fmt="g")
+plt.title("Population of Top 10 Countries (1960-1970)")
 plt.show()
+
