@@ -1,4 +1,4 @@
-# MSIS 5192 - Programming for Data Science
+I'm# MSIS 5192 - Programming for Data Science
 
 ## Course Overview
 
@@ -44,12 +44,7 @@ To make the most of this course, it is recommended that you have a basic underst
 
 To get started with this course, simply clone this repository and follow the instructions provided in the course materials. We encourage you to actively participate in hands-on exercises, assignments, and projects to reinforce your learning and build a strong foundation in data science with Python.
 
-## Instructor
-
-- **Name:** [Your Instructor's Name]
-- **Email:** [Instructor's Email Address]
-
-Feel free to reach out to the instructor with any questions or concerns throughout the course.
+## 
 
 ## Course Schedule
 
